@@ -1,7 +1,7 @@
 import os
 from telegram.ext import Updater, CommandHandler
 import pokepy
-from modules import Type, Pic
+from modules import Type, Pic, Ability
 import logging
 START_TEXT = 'Hey! Pokedex here. Type /help to get list of commands'
 ABOUT_TEXT = 'Bot made by Abhay Kshatriya (vegeto1806 on Telegram).\nThe source is available at https://github.com/kshatriya-abhay/pokebot'
@@ -15,6 +15,9 @@ List of available commands:
 
 poke_client = pokepy.V2Client(cache='in_disk', cache_location=(os.environ['HOME']+'/.cache'))
 
+def parse_args(args):
+	return '-'.join(args).lower()
+
 def start(update, context):
     update.message.reply_text(text = START_TEXT)
 
@@ -26,7 +29,7 @@ def get_help(update, context):
 
 def get_type(update, context):
 	if len(context.args) >= 1:
-		query = '-'.join(context.args)
+		query = parse_args(context.args)
 		response = ''
 		response = Type.fetch_type(poke_client, query)
 		update.message.reply_text(response)
@@ -35,7 +38,7 @@ def get_type(update, context):
 
 def get_pic(update, context):
 	if len(context.args) >= 1:
-		query = '-'.join(context.args)
+		query = parse_args(context.args)
 		flag, response, pic_title = Pic.fetch_pic(poke_client, query)
 		if flag:
 			context.bot.send_photo(chat_id=update.effective_chat.id, photo=response, caption=pic_title, reply_to_message_id=update.effective_message.message_id)
@@ -44,6 +47,14 @@ def get_pic(update, context):
 			update.message.reply_text(response)
 	else:
 		update.message.reply_text("Usage: /pic Pikachu")
+
+def ability(update, context):
+	if len(context.args) >= 1:
+		query = parse_args(context.args)
+		response = Ability.get_ability(poke_client, query)
+		update.message.reply_text(response, parse_mode = 'Markdown')
+	else:
+		update.message.reply_text("Usage: /ability Pikachu")
 
 TOKEN_STRING = open('API_TOKEN','r').read().replace('\n','')
 updater = Updater(TOKEN_STRING, use_context=True)
@@ -55,7 +66,7 @@ updater.dispatcher.add_handler(CommandHandler('about', about))
 updater.dispatcher.add_handler(CommandHandler('help', get_help))
 updater.dispatcher.add_handler(CommandHandler('type', get_type))
 updater.dispatcher.add_handler(CommandHandler('pic', get_pic))
-
+updater.dispatcher.add_handler(CommandHandler('ability', ability))
 
 updater.start_polling()
 updater.idle()
