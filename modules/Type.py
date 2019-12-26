@@ -5,8 +5,13 @@ def fetch_type(api,pkm):
 	try:
 		pika = api.get_pokemon(pkm)
 	except:
-		ans = "Seems like that ain't a valid Pokemon name.."
-		return ans
+		try:
+			pikasp = api.get_pokemon_species(pkm)
+			pid = pikasp.id
+			pika = api.get_pokemon(pid)
+		except:
+			ans = "Seems like that ain't a valid Pokemon name.."
+			return ans
 	ptypeList = pika.types
 	typeList = []
 	for t in ptypeList:
