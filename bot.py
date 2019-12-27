@@ -56,17 +56,31 @@ def ability(update, context):
 	else:
 		update.message.reply_text("Usage: /ability Pikachu")
 
-TOKEN_STRING = open('API_TOKEN','r').read().replace('\n','')
-updater = Updater(TOKEN_STRING, use_context=True)
+if __name__ == "__main__":
 
-logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',level=logging.INFO)
+	#TOKEN = open('API_TOKEN','r').read().replace('\n','')
+	TOKEN = os.environ.get('API_TOKEN')
 
-updater.dispatcher.add_handler(CommandHandler('start', start))
-updater.dispatcher.add_handler(CommandHandler('about', about))
-updater.dispatcher.add_handler(CommandHandler('help', get_help))
-updater.dispatcher.add_handler(CommandHandler('type', get_type))
-updater.dispatcher.add_handler(CommandHandler('pic', get_pic))
-updater.dispatcher.add_handler(CommandHandler('ability', ability))
+	NAME = "veg-pokebot"
 
-updater.start_polling()
-updater.idle()
+    # Port is given by Heroku
+	PORT = os.environ.get('PORT')
+
+	logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',level=logging.INFO)
+
+	updater = Updater(TOKEN, use_context=True)
+
+	updater.dispatcher.add_handler(CommandHandler('start', start))
+	updater.dispatcher.add_handler(CommandHandler('about', about))
+	updater.dispatcher.add_handler(CommandHandler('help', get_help))
+	updater.dispatcher.add_handler(CommandHandler('type', get_type))
+	updater.dispatcher.add_handler(CommandHandler('pic', get_pic))
+	updater.dispatcher.add_handler(CommandHandler('ability', ability))
+
+	# Start the webhook
+
+	updater.start_webhook(listen="0.0.0.0", port=int(PORT), url_path=TOKEN)
+	updater.bot.setWebhook("https://{}.herokuapp.com/{}".format(NAME, TOKEN))
+
+	#updater.start_polling()
+	updater.idle()
