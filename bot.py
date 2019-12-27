@@ -56,17 +56,20 @@ def ability(update, context):
 	else:
 		update.message.reply_text("Usage: /ability Pikachu")
 
-TOKEN_STRING = open('API_TOKEN','r').read().replace('\n','')
-updater = Updater(TOKEN_STRING, use_context=True)
+if __name__ == "__main__":
 
-logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',level=logging.INFO)
+	TOKEN = open('API_TOKEN','r').read().replace('\n','')
 
-updater.dispatcher.add_handler(CommandHandler('start', start))
-updater.dispatcher.add_handler(CommandHandler('about', about))
-updater.dispatcher.add_handler(CommandHandler('help', get_help))
-updater.dispatcher.add_handler(CommandHandler('type', get_type))
-updater.dispatcher.add_handler(CommandHandler('pic', get_pic))
-updater.dispatcher.add_handler(CommandHandler('ability', ability))
+	logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',level=logging.INFO)
 
-updater.start_polling()
-updater.idle()
+	updater = Updater(TOKEN, use_context=True)
+
+	updater.dispatcher.add_handler(CommandHandler('start', start))
+	updater.dispatcher.add_handler(CommandHandler('about', about))
+	updater.dispatcher.add_handler(CommandHandler('help', get_help))
+	updater.dispatcher.add_handler(CommandHandler('type', get_type))
+	updater.dispatcher.add_handler(CommandHandler('pic', get_pic))
+	updater.dispatcher.add_handler(CommandHandler('ability', ability))
+
+	updater.start_polling()
+	updater.idle()
