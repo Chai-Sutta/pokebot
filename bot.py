@@ -9,8 +9,11 @@ HELP_TEXT = """
 List of available commands:
 /help - Get this list
 /about - About the bot
-/type - Get a Pokemon's type(s) and type weaknesses
+Modules:
+/ability - Get info about an ability/a Pokemon's all abilities
+/learnset - Get Bulbapedia link to Learnset of a Pokemon
 /pic - Get a Pokemon's sprite
+/type - Get a Pokemon's type(s) and type weaknesses
 """
 
 poke_client = pokepy.V2Client(cache='in_disk', cache_location=(os.environ['HOME']+'/.cache'))
