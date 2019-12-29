@@ -1,7 +1,7 @@
 import os
 from telegram.ext import Updater, CommandHandler
 import pokepy
-from modules import Type, Pic, Ability
+from modules import Type, Pic, Ability, Learnset
 import logging
 START_TEXT = 'Hey! Pokedex here. Type /help to get list of commands'
 ABOUT_TEXT = 'Bot made by Abhay Kshatriya (vegeto1806 on Telegram).\nThe source is available at https://github.com/kshatriya-abhay/pokebot'
@@ -56,6 +56,15 @@ def ability(update, context):
 	else:
 		update.message.reply_text("Usage: /ability Pikachu")
 
+def learnset(update, context):
+	if len(context.args) >= 1:
+		query = parse_args(context.args)
+		response = Learnset.get_learnset(poke_client, query)
+		update.message.reply_text(response, parse_mode = 'Markdown')
+	else:
+		update.message.reply_text("Usage: /learnset Pikachu")
+
+
 if __name__ == "__main__":
 
 	#TOKEN = open('API_TOKEN','r').read().replace('\n','')
@@ -76,6 +85,7 @@ if __name__ == "__main__":
 	updater.dispatcher.add_handler(CommandHandler('type', get_type))
 	updater.dispatcher.add_handler(CommandHandler('pic', get_pic))
 	updater.dispatcher.add_handler(CommandHandler('ability', ability))
+	updater.dispatcher.add_handler(CommandHandler('learnset', learnset))
 
 	# Start the webhook
 
