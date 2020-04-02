@@ -1,7 +1,7 @@
 import os
 from telegram.ext import Updater, CommandHandler
 import pokepy
-from modules import Type, Pic, Ability, Learnset
+from modules import Type, Pic, Ability, Learnset, Random
 import logging
 START_TEXT = 'Hey! Pokedex here. Type /help to get list of commands'
 ABOUT_TEXT = 'Bot made by Abhay Kshatriya (vegeto1806 on Telegram).\nThe source is available at https://github.com/kshatriya-abhay/pokebot'
@@ -67,6 +67,10 @@ def learnset(update, context):
 	else:
 		update.message.reply_text("Usage: /learnset Pikachu")
 
+def get_random(update, context):
+	response = Random.get_random_pokemon(poke_client)
+	update.message.reply_text(response, parse_mode = 'Markdown')
+
 
 if __name__ == "__main__":
 
@@ -83,6 +87,7 @@ if __name__ == "__main__":
 	updater.dispatcher.add_handler(CommandHandler('pic', get_pic))
 	updater.dispatcher.add_handler(CommandHandler('ability', ability))
 	updater.dispatcher.add_handler(CommandHandler('learnset', learnset))
+	updater.dispatcher.add_handler(CommandHandler('random', get_random))
 
 	updater.start_polling()
 	updater.idle()
