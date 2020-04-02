@@ -18,5 +18,5 @@ def get_random_pokemon(api):
 	MID = pname + '_%28Pokémon%29'
 	B_URL = PRE_URL+MID
 	print(B_URL)
-	response = 'Your random pokémon is: '+pname+'\n'+'[Bulbapedia page]('+B_URL+')'
+	response = 'Your random pokémon is: ['+pname+']('+B_URL+')'
 	return response
