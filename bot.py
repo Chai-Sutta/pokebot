@@ -13,6 +13,7 @@ Modules:
 /ability - Get info about an ability/a Pokemon's all abilities
 /learnset - Get Bulbapedia link to Learnset of a Pokemon
 /pic - Get a Pokemon's sprite
+/random - Get a random pokemon
 /type - Get a Pokemon's type(s) and type weaknesses
 """
 
