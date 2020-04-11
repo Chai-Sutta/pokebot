@@ -1,7 +1,7 @@
 import os
 from telegram.ext import Updater, CommandHandler
 import pokepy
-from modules import Type, Pic, Ability, Learnset, Random
+from modules import Type, Pic, Ability, Learnset, Random, Starter, AllInfo
 import logging
 START_TEXT = 'Hey! Pokedex here. Type /help to get list of commands'
 ABOUT_TEXT = 'Bot made by Abhay Kshatriya (vegeto1806 on Telegram).\nThe source is available at https://github.com/kshatriya-abhay/pokebot'
@@ -10,11 +10,13 @@ List of available commands:
 /help - Get this list
 /about - About the bot
 Modules:
+/pokedex - Gets the ability, type and learnset of a Pokemon
 /ability - Get info about an ability/a Pokemon's all abilities
 /learnset - Get Bulbapedia link to Learnset of a Pokemon
 /pic - Get a Pokemon's sprite
 /random - Get a random pokemon
 /type - Get a Pokemon's type(s) and type weaknesses
+/starter - Gets you your own unique starter pokemon
 """
 
 poke_client = pokepy.V2Client(cache='in_disk', cache_location=(os.environ['HOME']+'/.cache'))
@@ -30,6 +32,15 @@ def about(update, context):
 
 def get_help(update, context):
     update.message.reply_text(HELP_TEXT)
+
+def all_info(update, context):
+	if len(context.args) >= 1:
+		query = parse_args(context.args)
+		response = ''
+		response = AllInfo.get_all_info(poke_client, query)
+		update.message.reply_text(response, parse_mode = 'Markdown')
+	else:
+		update.message.reply_text("Usage: /pokedex Pikachu")
 
 def get_type(update, context):
 	if len(context.args) >= 1:
@@ -72,6 +83,10 @@ def get_random(update, context):
 	response = Random.get_random_pokemon(poke_client)
 	update.message.reply_text(response, parse_mode = 'Markdown')
 
+def starter(update, context):
+	response = Starter.get_starter_pokemon(poke_client, update.message.from_user.id)
+	update.message.reply_text(response, parse_mode = 'Markdown')
+
 
 if __name__ == "__main__":
 
@@ -84,11 +99,13 @@ if __name__ == "__main__":
 	updater.dispatcher.add_handler(CommandHandler('start', start))
 	updater.dispatcher.add_handler(CommandHandler('about', about))
 	updater.dispatcher.add_handler(CommandHandler('help', get_help))
+	updater.dispatcher.add_handler(CommandHandler('pokedex', all_info))
 	updater.dispatcher.add_handler(CommandHandler('type', get_type))
 	updater.dispatcher.add_handler(CommandHandler('pic', get_pic))
 	updater.dispatcher.add_handler(CommandHandler('ability', ability))
 	updater.dispatcher.add_handler(CommandHandler('learnset', learnset))
 	updater.dispatcher.add_handler(CommandHandler('random', get_random))
+	updater.dispatcher.add_handler(CommandHandler('starter', starter))
 
 	updater.start_polling()
 	updater.idle()
