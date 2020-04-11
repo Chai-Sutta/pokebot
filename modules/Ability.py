@@ -21,8 +21,6 @@ def get_ability(api, query):
 	response = ''
 	try:
 		pok = api.get_pokemon(query)
-		response = 'List of abilities for ' + pok.name.title().replace('-',' ') + '\n'
-		response = response + '\n'
 		for a in pok.abilities:
 			response = response + get_ability_text(api, a.ability.name, a.is_hidden)
 	except:
