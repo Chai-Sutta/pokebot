@@ -1,4 +1,5 @@
 python-telegram-bot
 pokepy
 requests
+html5lib
 beautifulsoup4
