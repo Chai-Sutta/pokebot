@@ -1,6 +1,6 @@
 import pokepy
 
-def get_my_pokemon(api, user_id):
+def get_starter_pokemon(api, user_id):
 	query = (user_id % 807) + 1
 	response = ''
 	try:
