@@ -3,7 +3,10 @@ import pokepy
 def get_ability_text(api, ability_text, is_hidden = False):
 	ability = api.get_ability(ability_text)
 	flavor = ''
+	url_text = ability_text.title().replace('-','_')
+	B_URL = 'https://bulbapedia.bulbagarden.net/wiki/' + url_text + '_%28Ability%29'
 	flavor = ability.name.title().replace('-',' ')
+	flavor = '['+ flavor + ']('+B_URL+')'
 	if is_hidden:
 		flavor = flavor + ' (Hidden Ability)'
 	flavor = flavor + '\n'
@@ -11,9 +14,7 @@ def get_ability_text(api, ability_text, is_hidden = False):
 		if fte.language.name == 'en':
 			flavor = flavor + fte.flavor_text + '\n'
 			break
-	url_text = ability_text.title().replace('-','_')
-	B_URL = 'https://bulbapedia.bulbagarden.net/wiki/' + url_text + '_%28Ability%29'
-	flavor = flavor + '[Bulbapedia page]('+B_URL+')' + '\n'
+	
 	flavor = flavor + '\n'
 	return flavor
 
