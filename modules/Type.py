@@ -19,8 +19,18 @@ def fetch_type(api,pkm):
 	dmg0 = []
 	dmgh = []
 	dmg2 = []
+	if len(typeList) > 1:
+		ans = ans + 'Type : '
+	first = 1
 	for t in typeList:
-		ans = ans + 'Type : ' + t.name.capitalize() + '\n'
+		if len(typeList) > 1:
+			if first:
+				first = 0
+				ans = ans + t.name.capitalize()
+			else:
+				ans = ans + ' | ' + t.name.capitalize()
+		else:
+			ans = ans + 'Type : ' + t.name.capitalize()
 		s1list = []
 		s2list = []
 		s3list = []
@@ -33,6 +43,7 @@ def fetch_type(api,pkm):
 		dmg0.append(s1list)
 		dmgh.append(s2list)
 		dmg2.append(s3list)
+	ans = ans + '\n'
 	d0 = {}
 	d25 = {}
 	d50 = {}
