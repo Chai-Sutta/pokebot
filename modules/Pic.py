@@ -1,6 +1,6 @@
-import pokepy
-from bs4 import BeautifulSoup
 import requests
+from bs4 import BeautifulSoup
+
 
 def fetch_pic(api,pkm):
 	try:
