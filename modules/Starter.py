@@ -1,6 +1,5 @@
 def get_starter_pokemon(api, user_id):
     query = (user_id % 807) + 1
-    response = ''
     try:
         pikasp = api.get_pokemon_species(query)
     except:

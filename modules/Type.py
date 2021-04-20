@@ -1,6 +1,3 @@
-import pokepy
-
-
 def fetch_type(api, pkm):
     ans = ''
     try:

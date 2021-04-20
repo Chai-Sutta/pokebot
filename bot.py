@@ -1,12 +1,12 @@
 import os
 from telegram.ext import Updater, CommandHandler
 import pokepy
-from modules import Type, Pic, Ability, Learnset, Random, Starter, AllInfo
+from modules import Type, Pic, Ability, Learnset, Random, Starter, AllInfo, Evolution, EvoLearnset
 import logging
 
 START_TEXT = 'Hey! Pokedex here. Type /help to get list of commands'
 ABOUT_TEXT = 'Bot made by Abhay Kshatriya (vegeto1806 on Telegram).\nThe source is available at ' \
-             'https://github.com/kshatriya-abhay/pokebot '
+             'https://github.com/Chai-Sutta/pokebot '
 HELP_TEXT = """
 List of available commands:
 /help - Get this list
@@ -19,6 +19,8 @@ Modules:
 /random - Get a random pokemon
 /type - Get a Pokemon's type(s) and type weaknesses
 /starter - Gets you your own unique starter pokemon
+/evolution - Gets the evolution chain of this pokemon
+/evolearnset - Learnset links of all pokemon in this pokemon's evol chain
 """
 
 poke_client = pokepy.V2Client(cache='in_disk', cache_location=(os.environ['HOME'] + '/.cache'))
@@ -102,16 +104,30 @@ def starter(update, context):
     update.message.reply_text(response, parse_mode='Markdown')
 
 
-if __name__ == "__main__":
-    TOKEN = open('API_TOKEN', 'r').read().replace('\n', '')
+def evolution(update, context):
+    if len(context.args) >= 1:
+        query = parse_args(context.args)
+        response = Evolution.get_evolution(poke_client, query)
+        update.message.reply_text(response, parse_mode='Markdown')
+    else:
+        update.message.reply_text("Usage: /evolution Pikachu")
 
+def evolearnset(update, context):
+    if len(context.args) >= 1:
+        query = parse_args(context.args)
+        response = EvoLearnset.get_evo_learnset(poke_client, query)
+        update.message.reply_text(response, parse_mode='Markdown')
+    else:
+        update.message.reply_text("Usage: /evolearnset Pikachu")
+
+if __name__ == "__main__":
     #TOKEN = open('API_TOKEN','r').read().replace('\n','')
-	TOKEN = os.environ.get('API_TOKEN')
+    TOKEN = os.environ.get('API_TOKEN')
 
     NAME = "veg-pokebot"
 
     # Port is given by Heroku
-	PORT = os.environ.get('PORT')
+    PORT = os.environ.get('PORT')
 
     logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 
@@ -127,11 +143,13 @@ if __name__ == "__main__":
     updater.dispatcher.add_handler(CommandHandler('learnset', learnset))
     updater.dispatcher.add_handler(CommandHandler('random', get_random))
     updater.dispatcher.add_handler(CommandHandler('starter', starter))
+    updater.dispatcher.add_handler(CommandHandler('evolution', evolution))
+    updater.dispatcher.add_handler(CommandHandler('evolearnset', evolearnset))
 
     # Start the webhook
 
-	updater.start_webhook(listen="0.0.0.0", port=int(PORT), url_path=TOKEN)
+    updater.start_webhook(listen="0.0.0.0", port=int(PORT), url_path=TOKEN)
     updater.bot.setWebhook("https://{}.herokuapp.com/{}".format(NAME, TOKEN))
 
-	#updater.start_polling()
-	updater.idle()
+    #updater.start_polling()
+    updater.idle()

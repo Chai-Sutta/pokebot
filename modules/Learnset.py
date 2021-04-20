@@ -1,5 +1,4 @@
 def get_learnset(api, query):
-    response = ''
     try:
         pikasp = api.get_pokemon_species(query)
     except:
@@ -18,6 +17,10 @@ def get_learnset(api, query):
     MID = pname + '_%28Pokémon%29/'
     END = str_list[0] + '_' + str_list[1] + '_learnset'
     B_URL = PRE_URL + MID + END
-    print(B_URL)
-    response = '[Bulbapedia page](' + B_URL + ')'
+    response = '[Gen '+ str_list[1] +' learnset](' + B_URL + ')' + '\n'
+
+    if pikasp.generation.name != 'generation-vii' and pikasp.generation.name != 'generation-viii':
+        END = str_list[0] + '_VII_learnset'
+        B_URL = PRE_URL + MID + END
+        response = response + '[Gen VII learnset](' + B_URL + ')'
     return response

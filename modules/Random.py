@@ -3,7 +3,6 @@ import random
 
 def get_random_pokemon(api):
     query = random.randint(1, 807)
-    response = ''
     try:
         pikasp = api.get_pokemon_species(query)
     except:

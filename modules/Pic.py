@@ -1,6 +1,6 @@
-import requests
+import pokepy
 from bs4 import BeautifulSoup
-
+import requests
 
 def fetch_pic(api,pkm):
 	try:
@@ -14,7 +14,7 @@ def fetch_pic(api,pkm):
 	# PRE_URL = 'https://pokeres.bastionbot.org/images/pokemon/'
 	# EXT = '.png'
 	# IMG_URL = PRE_URL+str(pid)+EXT
-	
+
 	# IMG_URL = pika.sprites.front_default
 
 	for n in pikasp.names:

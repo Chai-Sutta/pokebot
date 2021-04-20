@@ -2,8 +2,6 @@ from . import Ability, Learnset, Type
 
 
 def get_all_info(api, query):
-    ans = ''
-
     try:
         pikasp = api.get_pokemon_species(query)
     except:
@@ -23,6 +21,6 @@ def get_all_info(api, query):
 
     ans = ans + Type.fetch_type(api, query) + '\n'
 
-    ans = ans + 'Earliest Learnset: ' + Learnset.get_learnset(api, query)
+    ans = ans + 'Learnsets: ' + Learnset.get_learnset(api, query)
 
     return ans
