@@ -10,6 +10,8 @@ Its on Telegram at [@Veg_Pokedex_Bot](https://t.me/Veg_Pokedex_Bot)
 
 It should respond to messages now.
 
+* If you get errors due to `beckett`, try using `python3.9`
+
 ## Credits
 1. [python-telegram-bot](https://github.com/python-telegram-bot/python-telegram-bot)
 2. [PokeAPI](https://pokeapi.co/) and its wrapper [pokepy](https://github.com/PokeAPI/pokepy)

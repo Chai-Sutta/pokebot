@@ -8,7 +8,7 @@ def get_ability_text(api, ability_text, is_hidden = False):
 	flavor = ability.name.title().replace('-',' ')
 	flavor = '['+ flavor + ']('+B_URL+')'
 	if is_hidden:
-		flavor = flavor + ' (Hidden Ability)'
+		flavor = flavor + ' (Hid 	den Ability)'
 	flavor = flavor + '\n'
 	for fte in ability.flavor_text_entries:
 		if fte.language.name == 'en':

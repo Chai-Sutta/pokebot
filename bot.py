@@ -19,7 +19,8 @@ Modules:
 /starter - Gets you your own unique starter pokemon
 """
 
-poke_client = pokepy.V2Client(cache='in_disk', cache_location=(os.environ['HOME']+'/.cache'))
+# poke_client = pokepy.V2Client()
+poke_client = pokepy.V2Client(cache='in_disk', cache_location=(os.getcwd()+'/.cache'))
 
 def parse_args(args):
 	return '-'.join(args).lower()

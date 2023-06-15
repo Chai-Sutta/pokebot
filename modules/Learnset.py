@@ -15,8 +15,13 @@ def get_learnset(api, query):
 	for n in pikasp.names:
 		if n.language.name == 'en':
 			pname = n.name
-	MID = pname + '_%28Pokémon%29/'
-	END = str_list[0]+'_'+str_list[1]+'_learnset'
+	MID = pname + '_%28Pokémon%29'
+	END = ''
+	if str_list[1] != 'IX':
+		END = '/' + str_list[0] + '_' + str_list[1] + '_learnset'
+	else:
+		END = "#Learnset"
+
 	B_URL = PRE_URL+MID+END
 	print(B_URL)
 	response = '[Bulbapedia page]('+B_URL+')'
